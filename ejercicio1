@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LENGTH 20
+#define MAX_WORDS 100
+
+int readWordList(const char *filename, char wordList[MAX_WORDS][MAX_LENGTH]);
+
+int main() {
+    char wordList[MAX_WORDS][MAX_LENGTH];
+    int numWords;
+    int i;
+
+    numWords = readWordList("palabras.txt", wordList);
+
+    if (numWords == -1) {
+        printf("No se pudo abrir el archivo de lista de palabras.\n");
+        return 1;
+    }
+
+    printf("Lista de palabras:\n");
+    for (i = 0; i < numWords; i++) {
+        printf("%s\n", wordList[i]);
+    }
+
+    return 0;
+}
+
+int readWordList(const char *filename, char wordList[MAX_WORDS][MAX_LENGTH]) {
+    FILE *file;
+    char word[MAX_LENGTH];
+    int numWords = 0;
+
+    file = fopen(filename, "r");
+    if (file == NULL) {
+        return -1; // Error al abrir el archivo
+    }
+
+    while (fgets(word, MAX_LENGTH, file) != NULL && numWords < MAX_WORDS) {
+        word[strlen(word) - 1] = '\0';  // Eliminar el salto de línea
+        strcpy(wordList[numWords], word);
+        numWords++;
+    }
+
+    fclose(file);
+
+    return numWords;
+}
