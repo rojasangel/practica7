@@ -1,0 +1,5 @@
+Animal
+Maquina
+Computadora
+Casa
+Elefante
